@@ -36,6 +36,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 /* Corresponding CRC function in Qt (www.qt.io) is qChecksum() */
 #define CRC16_CCITT_INIT_VAL 0xFFFF
 
+#define CRC16_FINAL_XOR 0xFFFF
+
 /* 16bit low and high bytes copier */
 #define low(x)    ((x) & 0xFF)
 #define high(x)   (((x)>>8) & 0xFF)
@@ -123,6 +125,7 @@ void Arduhdlc::frameDecode(const char *framebuffer, uint8_t frame_length)
         this->sendchar((uint8_t)data);
         frame_length--;
     }
+    fcs ^= CRC16_FINAL_XOR;
     data = low(fcs);
     if((data == CONTROL_ESCAPE_OCTET) || (data == FRAME_BOUNDARY_OCTET))
     {
