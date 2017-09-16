@@ -27,7 +27,7 @@ class Arduhdlc
     bool escape_character;
     uint8_t * receive_frame_buffer;
     uint8_t frame_position;
-    // 16bit CRC sum for _crc_ccitt_update
+    // 16bit CRC sum for _crc_xmodem_update
     uint16_t frame_checksum;
 	uint16_t max_frame_length;
 };

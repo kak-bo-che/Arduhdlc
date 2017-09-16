@@ -91,7 +91,7 @@ void Arduhdlc::charReceiver(uint8_t data)
     receive_frame_buffer[this->frame_position] = data;
 
     if(this->frame_position-2 >= 0) {
-        this->frame_checksum = _crc_ccitt_update(this->frame_checksum, receive_frame_buffer[this->frame_position-2]);
+        this->frame_checksum = _crc_xmodem_update(this->frame_checksum, receive_frame_buffer[this->frame_position-2]);
     }
 
     this->frame_position++;
@@ -114,7 +114,7 @@ void Arduhdlc::frameDecode(const char *framebuffer, uint8_t frame_length)
     while(frame_length)
     {
         data = *framebuffer++;
-        fcs = _crc_ccitt_update(fcs, data);
+        fcs = _crc_xmodem_update(fcs, data);
         if((data == CONTROL_ESCAPE_OCTET) || (data == FRAME_BOUNDARY_OCTET))
         {
             this->sendchar((uint8_t)CONTROL_ESCAPE_OCTET);
